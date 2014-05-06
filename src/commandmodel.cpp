@@ -43,7 +43,6 @@ void CommandModel::processXml() {
     QDomElement symfony = dom->namedItem("symfony").toElement();
     this->symfonyInformations(symfony);
 
-    qDebug("commands loop");
     QDomElement cmd = symfony.firstChildElement("commands").firstChildElement("command");
 
     for( ; !cmd.isNull(); cmd = cmd.nextSiblingElement("command") ) {
@@ -55,11 +54,8 @@ void CommandModel::processXml() {
 
         QDomElement desc = cmd.firstChildElement("description");
         command << new QStandardItem(desc.text());
-        //this->appendRow(new QStandardItem(cmd.attribute("id")));
         this->appendRow(command);
     }
-    qDebug("end commands loop");
-
 
     qDebug("end process");
     emit populated();
