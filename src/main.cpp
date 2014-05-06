@@ -13,14 +13,14 @@ int main(int argc, char *argv[]) {
     QObject::connect(list, SIGNAL(populated()), &loop, SLOT(quit()));
     loop.exec();
 
-    //qDebug(list->item(1,1)->text().toStdString().c_str());
-    QHash<int, QByteArray> roles = list->roleNames();
+    //qDebug(list->item(0,1)->text().toStdString().c_str());
+    /*QHash<int, QByteArray> roles = list->roleNames();
     QHashIterator<int, QByteArray> i(roles);
     while (i.hasNext()) {
         i.next();
         qDebug(i.value());
         //cout << i.key() << ": " << i.value() << endl;
-    }
+    }*/
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("commandModel",list);

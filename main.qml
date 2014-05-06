@@ -25,7 +25,7 @@ ApplicationWindow {
         }
         TableViewColumn {
             title: qsTr("Description")
-            role: "description"
+            role: "desc"
         }
     }
 

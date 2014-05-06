@@ -5,10 +5,10 @@ CommandModel::CommandModel(QObject *parent) :
 
     QHash<int, QByteArray> roles;
 
-    roles[Qt::UserRole + 0] = "name";
-    roles[Qt::UserRole + 1] = "description";
+    /*roles[Qt::UserRole + 0] = "name";
+    roles[Qt::UserRole + 1] = "description";*/
     roles[0] = "name";
-    roles[1] = "description";
+    roles[0] = "desc";
 
     setItemRoleNames(roles);
 
@@ -21,7 +21,7 @@ CommandModel::CommandModel(QObject *parent) :
     this->startProcess();
 }
 
-QHash<int, QByteArray> CommandModel::roleNames() {
+/*QHash<int, QByteArray> CommandModel::roleNames() {
     qDebug("here");
     QHash<int, QByteArray> roles;
 
@@ -31,7 +31,7 @@ QHash<int, QByteArray> CommandModel::roleNames() {
     roles[1] = "description";
 
     return roles;
-}
+}*/
 
 QString CommandModel::getName() {
     return name;
