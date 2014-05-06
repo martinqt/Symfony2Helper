@@ -15,6 +15,7 @@ class CommandModel : public QStandardItemModel {
 
     public:
         CommandModel(QObject *parent = 0);
+        QHash<int, QByteArray> roleNames();
 
     public slots:
         QString getName();

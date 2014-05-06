@@ -3,12 +3,14 @@
 CommandModel::CommandModel(QObject *parent) :
     QStandardItemModel(parent) {
 
-    /*QHash<int, QByteArray> roles;
+    QHash<int, QByteArray> roles;
 
     roles[Qt::UserRole + 0] = "name";
     roles[Qt::UserRole + 1] = "description";
+    roles[0] = "name";
+    roles[1] = "description";
 
-    setItemRoleNames(roles);*/
+    setItemRoleNames(roles);
 
     process = new QProcess(this);
     dom = new QDomDocument();
@@ -17,6 +19,18 @@ CommandModel::CommandModel(QObject *parent) :
     connect(process, SIGNAL(finished(int)), this, SLOT(getXmlCommandList(int)));
 
     this->startProcess();
+}
+
+QHash<int, QByteArray> CommandModel::roleNames() {
+    qDebug("here");
+    QHash<int, QByteArray> roles;
+
+    roles[Qt::UserRole + 0] = "name";
+    roles[Qt::UserRole + 1] = "description";
+    roles[0] = "name";
+    roles[1] = "description";
+
+    return roles;
 }
 
 QString CommandModel::getName() {
