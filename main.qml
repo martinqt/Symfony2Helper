@@ -2,7 +2,7 @@ import QtQuick 2.1
 import QtQuick.Controls 1.0
 
 ApplicationWindow {
-    id: applicationwindow1
+    id: window
     title: "Commands for " + commandModel.getName() + " - " + commandModel.getVersion()
 
     width: 600
