@@ -13,7 +13,6 @@ CommandModel::CommandModel(QObject *parent) :
 }
 
 QHash<int, QByteArray> CommandModel::roleNames() const {
-    qDebug("here");
     QHash<int, QByteArray> roles;
 
     roles[Qt::UserRole] = "name";
@@ -23,7 +22,6 @@ QHash<int, QByteArray> CommandModel::roleNames() const {
 }
 
 QVariant CommandModel::data(const QModelIndex &index, int role) const {
-    qDebug("there");
     switch (role) {
         case Qt::UserRole:
             return QVariant(this->item(index.row(), 0)->text());
@@ -45,6 +43,11 @@ QString CommandModel::getVersion() {
     return version;
 }
 
+QString CommandModel::getCompleteDescription(int row) {
+    //return this->item(row, 1)->text();
+    qDebug("Here");
+}
+
 void CommandModel::startProcess() {
     process->start("php", QStringList() << "C:/wamp/www/SWTOR/app/console" << "list" << "--format=xml");
 }
@@ -57,7 +60,7 @@ void CommandModel::getXmlCommandList(int code) {
 
 void CommandModel::processXml() {
     //qDebug(QString("Command : " + cmd.attribute("id")).toStdString().c_str());
-    qDebug("process");
+    //qDebug("process");
     QDomElement symfony = dom->namedItem("symfony").toElement();
     this->symfonyInformations(symfony);
 
@@ -75,7 +78,7 @@ void CommandModel::processXml() {
         this->appendRow(command);
     }
 
-    qDebug("end process");
+    //qDebug("end process");
     emit populated();
 }
 

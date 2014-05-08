@@ -29,6 +29,9 @@ int main(int argc, char *argv[]) {
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
 
+    //QObject *tableView = window->findChild<QObject *>("MainLayout")->findChild<QObject *>("TableView");
+    //QObject::connect(tableView, SIGNAL(clicked(int)), list, SLOT(getCompleteDescription(int)));
+
     window->show();
 
     return app.exec();

@@ -1,8 +1,10 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+import QtQuick.Layouts 1.0
 
 ApplicationWindow {
     id: window
+    objectName: "Window"
     title: "Commands for " + commandModel.getName() + " - " + commandModel.getVersion()
 
     width: 600
@@ -10,53 +12,68 @@ ApplicationWindow {
     minimumHeight: 400
     minimumWidth: 570
 
-    TableView {
-        id: tableview
-        anchors.bottom: filterBar.top
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottomMargin: 2
-        model: commandModel
+    ColumnLayout {
+        id: vertLay
+        objectName: "MainLayout"
+        anchors.fill: parent
+        anchors.margins: 0
+        spacing: 4
 
-        TableViewColumn {
-            title: qsTr("Command")
-            role: "name"
+        TableView {
+            id: tableView
+            objectName: "TableView"
+            model: commandModel
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            onClicked: {
+                commandModel.getCompleteDescription(row)
+            }
+
+            TableViewColumn {
+                id: nameColumn
+                title: qsTr("Command")
+                role: "name"
+                width: 225
+            }
+            TableViewColumn {
+                id: descColumn
+                title: qsTr("Description")
+                role: "description"
+                width: tableView.width-nameColumn.width-19
+            }
         }
-        TableViewColumn {
-            title: qsTr("Description")
-            role: "description"
+
+        TextArea {
+            id: desc
+            readOnly: true
+            Layout.fillWidth: true
+        }
+
+        GroupBox{
+            Layout.fillWidth: true
+            flat: true
+            anchors.margins: 0
+
+            RowLayout {
+                id: row
+                anchors.fill: parent
+
+                TextField {
+                    id: filterBar
+                    text: qsTr("")
+                    font.pixelSize: 12
+                    placeholderText: qsTr("Filter")
+                    Layout.fillWidth: true
+                }
+
+                Button {
+                    id: run
+                    text: qsTr("Run")
+
+                }
+            }
         }
     }
-
-    TextField {
-        id: filterBar
-        y: 377
-        height: 22
-        text: qsTr("")
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.right: run.left
-        anchors.rightMargin: 5
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
-        font.pixelSize: 12
-        placeholderText: qsTr("Filter")
-    }
-
-    Button {
-        id: run
-        width: 100
-        height: 22
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        //anchors.left: searchBar.right
-        anchors.top: tableview.bottom
-        anchors.topMargin: 2
-        text: qsTr("Run")
-        anchors.leftMargin: 46
-
-    }
-
 }
 

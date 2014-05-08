@@ -20,6 +20,7 @@ class CommandModel : public QStandardItemModel {
     public slots:
         QString getName();
         QString getVersion();
+        QString getCompleteDescription(int row);
 
     signals:
         void populated();
