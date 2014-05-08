@@ -28,6 +28,7 @@ ApplicationWindow {
 
             onClicked: {
                 desc.text = commandModel.getCompleteDescription(row)
+                parameters.text = ""
             }
 
             TableViewColumn {
@@ -61,10 +62,10 @@ ApplicationWindow {
                 anchors.fill: parent
 
                 TextField {
-                    id: filterBar
+                    id: parameters
                     text: qsTr("")
                     font.pixelSize: 12
-                    placeholderText: qsTr("Filter")
+                    placeholderText: qsTr("Parameters")
                     Layout.fillWidth: true
                 }
 
@@ -72,6 +73,9 @@ ApplicationWindow {
                     id: run
                     text: qsTr("Run")
 
+                    onClicked: {
+                        commandModel.runCommand(tableView.currentRow, parameters.text)
+                    }
                 }
             }
         }

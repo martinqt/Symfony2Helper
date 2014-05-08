@@ -21,6 +21,7 @@ class CommandModel : public QStandardItemModel {
         QString getName();
         QString getVersion();
         QString getCompleteDescription(int row);
+        void runCommand(int command, QString parameters);
 
     signals:
         void populated();

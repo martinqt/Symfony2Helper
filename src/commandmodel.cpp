@@ -58,6 +58,10 @@ QString CommandModel::getCompleteDescription(int row) {
     return this->item(row, 2)->text();
 }
 
+void CommandModel::runCommand(int command, QString parameters) {
+    qDebug(QString("Run: "+this->item(command, 0)->text()+" "+parameters).toStdString().c_str());
+}
+
 void CommandModel::startProcess() {
     process->start("php", QStringList() << "C:/wamp/www/SWTOR/app/console" << "list" << "--format=xml");
 }
