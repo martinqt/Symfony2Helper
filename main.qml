@@ -27,7 +27,7 @@ ApplicationWindow {
             Layout.fillHeight: true
 
             onClicked: {
-                commandModel.getCompleteDescription(row)
+                desc.text = commandModel.getCompleteDescription(row)
             }
 
             TableViewColumn {
@@ -40,7 +40,7 @@ ApplicationWindow {
                 id: descColumn
                 title: qsTr("Description")
                 role: "description"
-                width: tableView.width-nameColumn.width-19
+                width: tableView.width-nameColumn.width-18
             }
         }
 
@@ -48,6 +48,7 @@ ApplicationWindow {
             id: desc
             readOnly: true
             Layout.fillWidth: true
+            textFormat: TextEdit.RichText
         }
 
         GroupBox{

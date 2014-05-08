@@ -33,6 +33,7 @@ class CommandModel : public QStandardItemModel {
     private:
         void symfonyInformations(QDomElement symfony);
         QVariant data(const QModelIndex &index, int role) const;
+        QString convertTextStyle(QString text);
 
         QProcess *process;
         QDomDocument *dom;

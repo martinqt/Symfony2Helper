@@ -35,6 +35,17 @@ QVariant CommandModel::data(const QModelIndex &index, int role) const {
     }
 }
 
+QString CommandModel::convertTextStyle(QString text) {
+    //qDebug(QString("Command : " + cmd.attribute("id")).toStdString().c_str());
+    text.replace("<comment>", "<span style=\"color: #004DD1\">");
+    text.replace("</comment>", "</span>");
+    text.replace("<info>", "<span style=\"color: #919191; font-style:italic;\">");
+    text.replace("</info>", "</span>");
+    text.replace(QRegExp("\n"), "<br/>");
+
+    return text;
+}
+
 QString CommandModel::getName() {
     return name;
 }
@@ -44,8 +55,7 @@ QString CommandModel::getVersion() {
 }
 
 QString CommandModel::getCompleteDescription(int row) {
-    //return this->item(row, 1)->text();
-    qDebug("Here");
+    return this->item(row, 2)->text();
 }
 
 void CommandModel::startProcess() {
@@ -60,7 +70,6 @@ void CommandModel::getXmlCommandList(int code) {
 
 void CommandModel::processXml() {
     //qDebug(QString("Command : " + cmd.attribute("id")).toStdString().c_str());
-    //qDebug("process");
     QDomElement symfony = dom->namedItem("symfony").toElement();
     this->symfonyInformations(symfony);
 
@@ -73,12 +82,11 @@ void CommandModel::processXml() {
             command << new QStandardItem(cmd.attribute("id"));
         }
 
-        QDomElement desc = cmd.firstChildElement("description");
-        command << new QStandardItem(desc.text());
+        command << new QStandardItem(cmd.firstChildElement("description").text());
+        command << new QStandardItem(this->convertTextStyle(cmd.firstChildElement("help").text()));
         this->appendRow(command);
     }
 
-    //qDebug("end process");
     emit populated();
 }
 
