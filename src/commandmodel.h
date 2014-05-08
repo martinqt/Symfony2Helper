@@ -15,7 +15,7 @@ class CommandModel : public QStandardItemModel {
 
     public:
         CommandModel(QObject *parent = 0);
-        //QHash<int, QByteArray> roleNames();
+        QHash<int, QByteArray> roleNames() const;
 
     public slots:
         QString getName();
@@ -31,6 +31,7 @@ class CommandModel : public QStandardItemModel {
 
     private:
         void symfonyInformations(QDomElement symfony);
+        QVariant data(const QModelIndex &index, int role) const;
 
         QProcess *process;
         QDomDocument *dom;

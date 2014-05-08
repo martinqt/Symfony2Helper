@@ -3,15 +3,6 @@
 CommandModel::CommandModel(QObject *parent) :
     QStandardItemModel(parent) {
 
-    QHash<int, QByteArray> roles;
-
-    /*roles[Qt::UserRole + 0] = "name";
-    roles[Qt::UserRole + 1] = "description";*/
-    roles[0] = "name";
-    roles[0] = "desc";
-
-    setItemRoleNames(roles);
-
     process = new QProcess(this);
     dom = new QDomDocument();
     name = version = "";
@@ -21,17 +12,30 @@ CommandModel::CommandModel(QObject *parent) :
     this->startProcess();
 }
 
-/*QHash<int, QByteArray> CommandModel::roleNames() {
+QHash<int, QByteArray> CommandModel::roleNames() const {
     qDebug("here");
     QHash<int, QByteArray> roles;
 
-    roles[Qt::UserRole + 0] = "name";
-    roles[Qt::UserRole + 1] = "description";
-    roles[0] = "name";
-    roles[1] = "description";
+    roles[Qt::UserRole] = "name";
+    roles[Qt::UserRole+1] = "description";
 
     return roles;
-}*/
+}
+
+QVariant CommandModel::data(const QModelIndex &index, int role) const {
+    qDebug("there");
+    switch (role) {
+        case Qt::UserRole:
+            return QVariant(this->item(index.row(), 0)->text());
+        break;
+        case Qt::UserRole+1:
+            return QVariant(this->item(index.row(), 1)->text());
+        break;
+        default:
+            return QVariant();
+        break;
+    }
+}
 
 QString CommandModel::getName() {
     return name;
