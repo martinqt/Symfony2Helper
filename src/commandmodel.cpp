@@ -1,15 +1,15 @@
 #include "commandmodel.h"
 
-CommandModel::CommandModel(QObject *parent) :
+CommandModel::CommandModel(QString workingDirectory, QString consolePath, QObject *parent) :
     QStandardItemModel(parent) {
 
     process = new QProcess(this);
     dom = new QDomDocument();
     name = version = "";
+    workDir = workingDirectory;
+    console = consolePath;
 
     connect(process, SIGNAL(finished(int)), this, SLOT(getXmlCommandList(int)));
-
-    this->startProcess();
 }
 
 QHash<int, QByteArray> CommandModel::roleNames() const {
@@ -36,7 +36,6 @@ QVariant CommandModel::data(const QModelIndex &index, int role) const {
 }
 
 QString CommandModel::convertTextStyle(QString text) {
-    //qDebug(QString("Command : " + cmd.attribute("id")).toStdString().c_str());
     text.replace("<comment>", "<span style=\"color: #004DD1\">");
     text.replace("</comment>", "</span>");
     text.replace("<info>", "<span style=\"color: #919191; font-style:italic;\">");
@@ -63,7 +62,7 @@ void CommandModel::runCommand(int command, QString parameters) {
 }
 
 void CommandModel::startProcess() {
-    process->start("php", QStringList() << "C:/wamp/www/SWTOR/app/console" << "list" << "--format=xml");
+    process->start("php", QStringList() << console << "list" << "--format=xml");
 }
 
 void CommandModel::getXmlCommandList(int code) {
@@ -73,7 +72,6 @@ void CommandModel::getXmlCommandList(int code) {
 }
 
 void CommandModel::processXml() {
-    //qDebug(QString("Command : " + cmd.attribute("id")).toStdString().c_str());
     QDomElement symfony = dom->namedItem("symfony").toElement();
     this->symfonyInformations(symfony);
 

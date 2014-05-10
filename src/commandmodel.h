@@ -14,7 +14,7 @@ class CommandModel : public QStandardItemModel {
     Q_OBJECT
 
     public:
-        CommandModel(QObject *parent = 0);
+        CommandModel(QString workingDirectory, QString consolePath, QObject *parent = 0);
         QHash<int, QByteArray> roleNames() const;
 
     public slots:
@@ -22,12 +22,12 @@ class CommandModel : public QStandardItemModel {
         QString getVersion();
         QString getCompleteDescription(int row);
         void runCommand(int command, QString parameters);
+        void startProcess();
 
     signals:
         void populated();
 
     private slots:
-        void startProcess();
         void getXmlCommandList(int code);
         void processXml();
 
@@ -38,7 +38,7 @@ class CommandModel : public QStandardItemModel {
 
         QProcess *process;
         QDomDocument *dom;
-        QString name, version;
+        QString name, version, workDir, console;
 };
 
 #endif // COMMANDLIST_H

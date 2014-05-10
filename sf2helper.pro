@@ -2,11 +2,12 @@ QT += qml quick widgets xml
 
 CONFIG += console
 
-TARGET = gallery
+TARGET = Sf2Helper
 
 SOURCES += \
     src/main.cpp \
-    src/commandmodel.cpp
+    src/commandmodel.cpp \
+    src/commandwindow.cpp
 
 OTHER_FILES += \
     main.qml
@@ -15,4 +16,5 @@ RESOURCES += \
     resources.qrc
 
 HEADERS += \
-    src/commandmodel.h
+    src/commandmodel.h \
+    src/commandwindow.h
