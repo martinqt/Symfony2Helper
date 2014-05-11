@@ -8,6 +8,7 @@
 #include <QStandardItem>
 #include <QList>
 #include <QVariant>
+#include <QDir>
 
 class CommandModel : public QStandardItemModel {
 
@@ -21,11 +22,13 @@ class CommandModel : public QStandardItemModel {
         QString getName();
         QString getVersion();
         QString getCompleteDescription(int row);
-        void runCommand(int command, QString parameters);
+        void runCommand(int cmd, QString parameters);
         void startProcess();
+        void commandCompleted(int code);
 
     signals:
         void populated();
+        void completed();
 
     private slots:
         void getXmlCommandList(int code);
@@ -37,6 +40,7 @@ class CommandModel : public QStandardItemModel {
         QString convertTextStyle(QString text);
 
         QProcess *process;
+        QProcess *cmd;
         QDomDocument *dom;
         QString name, version, workDir, console;
 };

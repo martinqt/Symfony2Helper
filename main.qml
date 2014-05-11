@@ -12,6 +12,23 @@ ApplicationWindow {
     minimumHeight: 400
     minimumWidth: 570
 
+    function lock() {
+        run.enabled = false;
+        parameters.enabled = false;
+    }
+
+    function unlock() {
+        run.enabled = true;
+        parameters.enabled = true;
+    }
+
+    Connections {
+        target: commandModel
+        onCompleted: {
+            window.unlock()
+        }
+    }
+
     ColumnLayout {
         id: vertLay
         objectName: "MainLayout"
@@ -67,6 +84,11 @@ ApplicationWindow {
                     font.pixelSize: 12
                     placeholderText: qsTr("Parameters")
                     Layout.fillWidth: true
+
+                    onAccepted: {
+                        commandModel.runCommand(tableView.currentRow, parameters.text)
+                        window.lock()
+                    }
                 }
 
                 Button {
@@ -75,6 +97,7 @@ ApplicationWindow {
 
                     onClicked: {
                         commandModel.runCommand(tableView.currentRow, parameters.text)
+                        window.lock()
                     }
                 }
             }

@@ -4,12 +4,16 @@ CommandModel::CommandModel(QString workingDirectory, QString consolePath, QObjec
     QStandardItemModel(parent) {
 
     process = new QProcess(this);
+    cmd = new QProcess(this);
     dom = new QDomDocument();
     name = version = "";
     workDir = workingDirectory;
     console = consolePath;
+    QDir::setCurrent(workDir);
+
 
     connect(process, SIGNAL(finished(int)), this, SLOT(getXmlCommandList(int)));
+    connect(cmd, SIGNAL(finished(int)), this, SLOT(commandCompleted(int)));
 }
 
 QHash<int, QByteArray> CommandModel::roleNames() const {
@@ -59,13 +63,22 @@ QString CommandModel::getCompleteDescription(int row) {
 
 void CommandModel::runCommand(int command, QString parameters) {
     qDebug(QString("Run: "+this->item(command, 0)->text()+" "+parameters).toStdString().c_str());
+    cmd->start("php", QStringList() << console << this->item(command, 0)->text() << parameters);
 }
 
 void CommandModel::startProcess() {
     process->start("php", QStringList() << console << "list" << "--format=xml");
 }
 
+void CommandModel::commandCompleted(int code) {
+    Q_UNUSED(code);
+
+    emit completed();
+}
+
 void CommandModel::getXmlCommandList(int code) {
+    Q_UNUSED(code);
+
     dom->setContent(process->readAll());
 
     this->processXml();
