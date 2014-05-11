@@ -7,7 +7,7 @@ ApplicationWindow {
     objectName: "Window"
     title: "Commands for " + commandModel.getName() + " - " + commandModel.getVersion()
 
-    width: 600
+    width: 800
     height: 400
     minimumHeight: 400
     minimumWidth: 570
@@ -29,77 +29,100 @@ ApplicationWindow {
         }
     }
 
-    ColumnLayout {
-        id: vertLay
+    GridLayout {
+        id: graidLay
         objectName: "MainLayout"
         anchors.fill: parent
         anchors.margins: 0
-        spacing: 4
+        columns: 2
 
-        TableView {
-            id: tableView
-            objectName: "TableView"
-            model: commandModel
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        ColumnLayout {
+            id: leftColumn
 
-            onClicked: {
-                desc.text = commandModel.getCompleteDescription(row)
-                parameters.text = ""
+            TableView {
+                id: tableView
+                objectName: "TableView"
+                model: commandModel
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                onClicked: {
+                    desc.text = commandModel.getCompleteDescription(row)
+                    parameters.text = ""
+                }
+
+                TableViewColumn {
+                    id: nameColumn
+                    title: qsTr("Command")
+                    role: "name"
+                    width: 225
+                }
+                TableViewColumn {
+                    id: descColumn
+                    title: qsTr("Description")
+                    role: "description"
+                    width: tableView.width-nameColumn.width-18
+                }
             }
 
-            TableViewColumn {
-                id: nameColumn
-                title: qsTr("Command")
-                role: "name"
-                width: 225
+            TextArea {
+                id: desc
+                readOnly: true
+                Layout.fillWidth: true
+                textFormat: TextEdit.RichText
             }
-            TableViewColumn {
-                id: descColumn
-                title: qsTr("Description")
-                role: "description"
-                width: tableView.width-nameColumn.width-18
+
+            /*GroupBox{
+                Layout.fillWidth: true
+                flat: true
+                anchors.margins: 0*/
+
+                RowLayout {
+                    id: rowLay
+                    anchors.bottom: window.bottom
+
+                    TextField {
+                        id: parameters
+                        text: qsTr("")
+                        font.pixelSize: 12
+                        placeholderText: qsTr("Parameters")
+                        Layout.fillWidth: true
+
+                        onAccepted: {
+                            commandModel.runCommand(tableView.currentRow, parameters.text)
+                            window.lock()
+                        }
+                    }
+
+                    Button {
+                        id: run
+                        text: qsTr("Run")
+
+                        onClicked: {
+                            commandModel.runCommand(tableView.currentRow, parameters.text)
+                            window.lock()
+                        }
+                    }
+                //}
             }
         }
 
-        TextArea {
-            id: desc
-            readOnly: true
-            Layout.fillWidth: true
-            textFormat: TextEdit.RichText
-        }
+        ColumnLayout {
+            id: rightColumn
 
-        GroupBox{
-            Layout.fillWidth: true
-            flat: true
-            anchors.margins: 0
+            TextArea {
+                id: consoleDisplay
+                readOnly: true
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                textFormat: TextEdit.RichText
+            }
 
-            RowLayout {
-                id: row
-                anchors.fill: parent
-
-                TextField {
-                    id: parameters
-                    text: qsTr("")
-                    font.pixelSize: 12
-                    placeholderText: qsTr("Parameters")
-                    Layout.fillWidth: true
-
-                    onAccepted: {
-                        commandModel.runCommand(tableView.currentRow, parameters.text)
-                        window.lock()
-                    }
-                }
-
-                Button {
-                    id: run
-                    text: qsTr("Run")
-
-                    onClicked: {
-                        commandModel.runCommand(tableView.currentRow, parameters.text)
-                        window.lock()
-                    }
-                }
+            TextField {
+                id: consoleInput
+                text: qsTr("")
+                font.pixelSize: 12
+                Layout.fillWidth: true
             }
         }
     }
