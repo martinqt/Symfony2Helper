@@ -1,6 +1,7 @@
 #include "commandwindow.h"
 
-CommandWindow::CommandWindow(QObject *parent) : QObject(parent) {
+CommandWindow::CommandWindow(QObject *parent) :
+    QObject(parent) {
     engine = new QQmlApplicationEngine(this);
 }
 
