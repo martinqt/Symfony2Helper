@@ -24,15 +24,16 @@ class CommandModel : public QStandardItemModel {
         QString getCompleteDescription(int row);
         void runCommand(int cmd, QString parameters);
         void startProcess();
-        void commandCompleted(int code);
 
     signals:
         void populated();
         void completed();
+        void print(int type, QString text);
 
     private slots:
         void getXmlCommandList(int code);
         void processXml();
+        void commandCompleted(int code);
 
     private:
         void symfonyInformations(QDomElement symfony);

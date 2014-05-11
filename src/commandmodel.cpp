@@ -62,8 +62,8 @@ QString CommandModel::getCompleteDescription(int row) {
 }
 
 void CommandModel::runCommand(int command, QString parameters) {
-    qDebug(QString("Run: "+this->item(command, 0)->text()+" "+parameters).toStdString().c_str());
     cmd->start("php", QStringList() << console << this->item(command, 0)->text() << parameters);
+    emit print(1, QString("Run: "+this->item(command, 0)->text()+" "+parameters));
 }
 
 void CommandModel::startProcess() {
@@ -73,6 +73,7 @@ void CommandModel::startProcess() {
 void CommandModel::commandCompleted(int code) {
     Q_UNUSED(code);
 
+    emit print(2, "Completed");
     emit completed();
 }
 

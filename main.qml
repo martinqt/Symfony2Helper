@@ -22,10 +22,27 @@ ApplicationWindow {
         parameters.enabled = true;
     }
 
+    function printConsole(type, text) {
+        if(type === 0) {
+            consoleDisplay.append(text)
+        }
+        else if(type === 1) {
+            consoleDisplay.append("<span style=\"color: #004DD1;\">"+text+"</span>")
+        }
+        else if(type === 2) {
+            consoleDisplay.append("<span style=\"color: #DE1A00;\">"+text+"</span>")
+        }
+
+    }
+
     Connections {
         target: commandModel
         onCompleted: {
             window.unlock()
+        }
+
+        onPrint: {
+            window.printConsole(type, text)
         }
     }
 
@@ -72,38 +89,32 @@ ApplicationWindow {
                 textFormat: TextEdit.RichText
             }
 
-            /*GroupBox{
-                Layout.fillWidth: true
-                flat: true
-                anchors.margins: 0*/
+            RowLayout {
+                id: rowLay
+                anchors.bottom: window.bottom
 
-                RowLayout {
-                    id: rowLay
-                    anchors.bottom: window.bottom
+                TextField {
+                    id: parameters
+                    text: qsTr("")
+                    font.pixelSize: 12
+                    placeholderText: qsTr("Parameters")
+                    Layout.fillWidth: true
 
-                    TextField {
-                        id: parameters
-                        text: qsTr("")
-                        font.pixelSize: 12
-                        placeholderText: qsTr("Parameters")
-                        Layout.fillWidth: true
-
-                        onAccepted: {
-                            commandModel.runCommand(tableView.currentRow, parameters.text)
-                            window.lock()
-                        }
+                    onAccepted: {
+                        commandModel.runCommand(tableView.currentRow, parameters.text)
+                        window.lock()
                     }
+                }
 
-                    Button {
-                        id: run
-                        text: qsTr("Run")
+                Button {
+                    id: run
+                    text: qsTr("Run")
 
-                        onClicked: {
-                            commandModel.runCommand(tableView.currentRow, parameters.text)
-                            window.lock()
-                        }
+                    onClicked: {
+                        commandModel.runCommand(tableView.currentRow, parameters.text)
+                        window.lock()
                     }
-                //}
+                }
             }
         }
 
