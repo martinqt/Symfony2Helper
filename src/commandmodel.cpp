@@ -39,42 +39,25 @@ QVariant CommandModel::data(const QModelIndex &index, int role) const {
     }
 }
 
-QString CommandModel::convertTextStyle(QString text) {
-    text.replace("<comment>", "<span style=\"color: #004DD1\">");
-    text.replace("</comment>", "</span>");
-    text.replace("<info>", "<span style=\"color: #919191; font-style:italic;\">");
-    text.replace("</info>", "</span>");
-    text.replace(QRegExp("\n"), "<br/>");
-
-    return text;
-}
-
-QString CommandModel::getName() {
-    return name;
-}
-
-QString CommandModel::getVersion() {
-    return version;
-}
-
 QString CommandModel::getCompleteDescription(int row) {
     return this->item(row, 2)->text();
 }
 
 void CommandModel::runCommand(int command, QString parameters) {
-    cmd->start("php", QStringList() << console << this->item(command, 0)->text() << parameters);
-    emit print(1, QString("Run: "+this->item(command, 0)->text()+" "+parameters));
-}
-
-void CommandModel::startProcess() {
-    process->start("php", QStringList() << console << "list" << "--format=xml");
+    cmd->start("php", QStringList() << console << this->item(command, 0)->text() << parameters << "--ansi");
+    emit print(1, QString("Run: "+this->item(command, 0)->text()+" "+parameters+" --ansi"));
 }
 
 void CommandModel::commandCompleted(int code) {
     Q_UNUSED(code);
 
+    emit print(0, this->convertAnsiTextStyle(cmd->readAll()));
     emit print(2, "Completed");
     emit completed();
+}
+
+void CommandModel::startProcess() {
+    process->start("php", QStringList() << console << "list" << "--format=xml");
 }
 
 void CommandModel::getXmlCommandList(int code) {
@@ -99,11 +82,31 @@ void CommandModel::processXml() {
         }
 
         command << new QStandardItem(cmd.firstChildElement("description").text());
-        command << new QStandardItem(this->convertTextStyle(cmd.firstChildElement("help").text()));
+        command << new QStandardItem(this->convertXmlTextStyle(cmd.firstChildElement("help").text()));
         this->appendRow(command);
     }
 
     emit populated();
+}
+
+QString CommandModel::convertXmlTextStyle(QString text) {
+    text.replace("<comment>", "<span style=\"color: #004DD1\">");
+    text.replace("</comment>", "</span>");
+    text.replace("<info>", "<span style=\"color: #919191; font-style:italic;\">");
+    text.replace("</info>", "</span>");
+    text.replace(QRegExp("\n"), "<br/>");
+
+    return text;
+}
+
+QString CommandModel::convertAnsiTextStyle(QString text) {
+    text.replace("[32m", "<span style=\"color: #3BCF00\">");
+    text.replace("[33m", "<span style=\"color: #009AD6\">");
+    text.replace("[39m", "</span>");
+    text.replace(QRegExp("\n"), "<br/>");
+    text.replace(QRegExp("\t"), "!");
+
+    return text;
 }
 
 void CommandModel::symfonyInformations(QDomElement symfony) {
@@ -113,4 +116,12 @@ void CommandModel::symfonyInformations(QDomElement symfony) {
     if(symfony.hasAttribute("version")) {
         version = symfony.attribute("version");
     }
+}
+
+QString CommandModel::getName() {
+    return name;
+}
+
+QString CommandModel::getVersion() {
+    return version;
 }

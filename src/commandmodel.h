@@ -6,8 +6,6 @@
 #include <QStandardItemModel>
 #include <QFile>
 #include <QStandardItem>
-#include <QList>
-#include <QVariant>
 #include <QDir>
 
 class CommandModel : public QStandardItemModel {
@@ -19,11 +17,11 @@ class CommandModel : public QStandardItemModel {
         QHash<int, QByteArray> roleNames() const;
 
     public slots:
-        QString getName();
-        QString getVersion();
         QString getCompleteDescription(int row);
         void runCommand(int cmd, QString parameters);
         void startProcess();
+        QString getName();
+        QString getVersion();
 
     signals:
         void populated();
@@ -31,14 +29,15 @@ class CommandModel : public QStandardItemModel {
         void print(int type, QString text);
 
     private slots:
+        void commandCompleted(int code);
         void getXmlCommandList(int code);
         void processXml();
-        void commandCompleted(int code);
 
     private:
-        void symfonyInformations(QDomElement symfony);
         QVariant data(const QModelIndex &index, int role) const;
-        QString convertTextStyle(QString text);
+        void symfonyInformations(QDomElement symfony);
+        QString convertXmlTextStyle(QString text);
+        QString convertAnsiTextStyle(QString text);
 
         QProcess *process;
         QProcess *cmd;
