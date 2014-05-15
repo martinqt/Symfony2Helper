@@ -27,7 +27,7 @@ ApplicationWindow {
             consoleDisplay.append(text)
         }
         else if(type === 1) {
-            consoleDisplay.append("<span style=\"color: #004DD1;\">"+text+"</span>")
+            consoleDisplay.append("\n<span style=\"color: #004DD1;\">"+text+"</span>")
         }
         else if(type === 2) {
             consoleDisplay.append("<span style=\"color: #DE1A00;\">"+text+"</span>")
@@ -120,6 +120,7 @@ ApplicationWindow {
 
         ColumnLayout {
             id: rightColumn
+            width: window.width*2/3
 
             TextArea {
                 id: consoleDisplay

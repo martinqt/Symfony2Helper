@@ -13,7 +13,7 @@ void CommandWindow::process(QString workingDir, QString consolePath) {
 
 void CommandWindow::loadQML() {
     engine->rootContext()->setContextProperty("commandModel",model);
-    engine->load(QUrl("qrc:/main.qml"));
+    engine->load(QUrl("qrc:/console.qml"));
 
     QObject *topLevel = engine->rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);

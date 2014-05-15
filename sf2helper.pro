@@ -10,7 +10,7 @@ SOURCES += \
     src/commandwindow.cpp
 
 OTHER_FILES += \
-    main.qml
+    console.qml
 
 RESOURCES += \
     resources.qrc
