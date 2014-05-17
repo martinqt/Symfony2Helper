@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>console.qml</file>
+        <file alias="console">qml/console.qml</file>
     </qresource>
 </RCC>

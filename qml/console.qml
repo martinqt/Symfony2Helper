@@ -27,10 +27,10 @@ ApplicationWindow {
             consoleDisplay.append(text)
         }
         else if(type === 1) {
-            consoleDisplay.append("\n<span style=\"color: #004DD1;\">"+text+"</span>")
+            consoleDisplay.append("<br/><span style=\"color: #004DD1;\">"+text+"</span><br/>")
         }
         else if(type === 2) {
-            consoleDisplay.append("<span style=\"color: #DE1A00;\">"+text+"</span>")
+            consoleDisplay.append("<br/><span style=\"color: #DE1A00;\">"+text+"</span><br/>")
         }
 
     }
