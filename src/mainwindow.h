@@ -6,7 +6,6 @@
 #include <QSettings>
 #include "basewindow.h"
 #include "commandwindow.h"
-#include "splashscreen.h"
 
 class MainWindow : public BaseWindow {
 
@@ -18,17 +17,18 @@ class MainWindow : public BaseWindow {
 
     public slots:
         void displayConsole();
-        void showSplashScreen();
-        void hideSplashScreen();
+        bool isConsoleReady();
 
     signals:
         void consoleReady();
+
+    private slots:
+        void emitConsoleReady();
 
     private:
         void loadConfig();
 
         CommandWindow *console;
-        //SplashScreen *splash;
         QString workingDir, consolePath, exePath;
 };
 

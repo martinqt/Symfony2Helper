@@ -2,6 +2,7 @@
 
 CommandWindow::CommandWindow(QObject *parent) :
     BaseWindow(parent) {
+    _ready = false;
 }
 
 bool CommandWindow::isReady() {

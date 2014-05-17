@@ -3,12 +3,10 @@
 MainWindow::MainWindow(QObject *parent) :
     BaseWindow(parent) {
     console = new CommandWindow(this);
-    //splash = new SplashScreen(this);
+    connect(console, SIGNAL(ready()), this, SLOT(emitConsoleReady()));
 
     engine->rootContext()->setContextProperty("cpp",this);
     this->loadFile("main");
-
-    //connect(console, SIGNAL(hideSplash()), this, SLOT(hideSplashScreen()));
 }
 
 void MainWindow::setExePath(QString path) {
@@ -35,15 +33,14 @@ void MainWindow::loadConfig() {
     }
 }
 
-void MainWindow::showSplashScreen() {
-    //this->splash->showWindow();
-}
-
-void MainWindow::hideSplashScreen() {
-    //this->splash->hideWindow();
+void MainWindow::emitConsoleReady() {
+    emit consoleReady();
 }
 
 void MainWindow::displayConsole() {
-    //this->showSplashScreen();
     console->showWindow();
+}
+
+bool MainWindow::isConsoleReady() {
+    return console->isReady();
 }
