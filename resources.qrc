@@ -1,5 +1,9 @@
 <RCC>
-    <qresource prefix="/">
-        <file alias="console">qml/console.qml</file>
+    <qresource prefix="/qml">
+        <file alias="console">qml/Console.qml</file>
+        <file alias="main">qml/main.qml</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file alias="sf2">pics/sf2.png</file>
     </qresource>
 </RCC>

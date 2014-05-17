@@ -1,8 +1,12 @@
 #include "commandwindow.h"
 
 CommandWindow::CommandWindow(QObject *parent) :
-    QObject(parent) {
-    engine = new QQmlApplicationEngine(this);
+    BaseWindow(parent) {
+    _ready = false;
+}
+
+bool CommandWindow::isReady() {
+    return _ready;
 }
 
 void CommandWindow::process(QString workingDir, QString consolePath) {
@@ -13,10 +17,7 @@ void CommandWindow::process(QString workingDir, QString consolePath) {
 
 void CommandWindow::loadQML() {
     engine->rootContext()->setContextProperty("commandModel",model);
-    engine->load(QUrl("qrc:/console"));
-
-    QObject *topLevel = engine->rootObjects().value(0);
-    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
-
-    window->show();
+    this->loadFile("console");
+    _ready = true;
+    emit ready();
 }

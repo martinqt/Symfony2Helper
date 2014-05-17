@@ -1,10 +1,11 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
+import QtQuick.Window 2.0
 
-ApplicationWindow {
+Window {
     id: window
-    objectName: "Window"
+    objectName: "commandWindow"
     title: "Commands for " + commandModel.getName() + " - " + commandModel.getVersion()
 
     width: 800

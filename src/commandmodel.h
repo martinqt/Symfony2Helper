@@ -24,8 +24,19 @@ class CommandModel : public QStandardItemModel {
         QString getVersion();
 
     signals:
+        /**
+         * @brief Emitted when the model has been populated.
+         */
         void populated();
+        /**
+         * @brief Emitted when the requested command has been excuted.
+         */
         void completed();
+        /**
+         * @brief Request the displaying of the message in the QML context.
+         * @param type The message type.
+         * @param text The text of the message.
+         */
         void print(int type, QString text);
 
     private slots:
@@ -39,8 +50,7 @@ class CommandModel : public QStandardItemModel {
         QString convertXmlTextStyle(QString text);
         QString convertAnsiTextStyle(QString text);
 
-        QProcess *process;
-        QProcess *cmd;
+        QProcess *process, *cmd;
         QDomDocument *dom;
         QString name, version, workDir, console;
 };
