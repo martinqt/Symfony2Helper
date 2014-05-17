@@ -2,10 +2,8 @@
     <qresource prefix="/qml">
         <file alias="console">qml/Console.qml</file>
         <file alias="main">qml/main.qml</file>
-        <file alias="splashScreen">qml/SplashScreen.qml</file>
     </qresource>
     <qresource prefix="/icons">
         <file alias="sf2">pics/sf2.png</file>
-        <file alias="sf2_large">pics/symfony_logo.png</file>
     </qresource>
 </RCC>
