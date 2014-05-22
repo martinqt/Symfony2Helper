@@ -8,6 +8,7 @@ SOURCES += \
     src/main.cpp \
     src/commandmodel.cpp \
     src/commandwindow.cpp \
+    src/composerwindow.cpp \
     src/mainwindow.cpp \
     src/basewindow.cpp
 
@@ -21,5 +22,6 @@ RESOURCES += \
 HEADERS += \
     src/commandmodel.h \
     src/commandwindow.h \
+    src/composerwindow.h \
     src/mainwindow.h \
     src/basewindow.h

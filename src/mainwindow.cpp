@@ -5,6 +5,9 @@ MainWindow::MainWindow(QObject *parent) :
     console = new CommandWindow(this);
     connect(console, SIGNAL(ready()), this, SLOT(emitConsoleReady()));
 
+    composer = new ComposerWindow(this);
+    connect(composer, SIGNAL(ready()), this, SLOT(emitComposerReady()));
+
     engine->rootContext()->setContextProperty("cpp",this);
     this->loadFile("main");
 }
@@ -13,6 +16,7 @@ void MainWindow::setExePath(QString path) {
     exePath = path;
     this->loadConfig();
     console->process(workingDir, consolePath);
+    composer->process(workingDir, consolePath);
 }
 
 void MainWindow::loadConfig() {
@@ -35,6 +39,10 @@ void MainWindow::loadConfig() {
 
 void MainWindow::emitConsoleReady() {
     emit consoleReady();
+}
+
+void MainWindow::emitComposerReady() {
+    emit composerReady();
 }
 
 void MainWindow::displayConsole() {

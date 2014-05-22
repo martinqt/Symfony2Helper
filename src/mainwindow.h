@@ -6,6 +6,7 @@
 #include <QSettings>
 #include "basewindow.h"
 #include "commandwindow.h"
+#include "composerwindow.h"
 
 class MainWindow : public BaseWindow {
 
@@ -21,14 +22,17 @@ class MainWindow : public BaseWindow {
 
     signals:
         void consoleReady();
+        void composerReady();
 
     private slots:
         void emitConsoleReady();
+        void emitComposerReady();
 
     private:
         void loadConfig();
 
         CommandWindow *console;
+        ComposerWindow *composer;
         QString workingDir, consolePath, exePath;
 };
 
