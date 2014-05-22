@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QStandardItem>
 #include <QDir>
+#include <QXmlSimpleReader>
 
 class CommandModel : public QStandardItemModel {
 

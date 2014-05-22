@@ -17,7 +17,7 @@ void ComposerWindow::process(QString workingDir, QString consolePath) {
 
 void ComposerWindow::loadQML() {
     engine->rootContext()->setContextProperty("commandModel",model);
-    //this->loadFile("console");
+    this->loadFile("composer");
     _ready = true;
     emit ready();
 }

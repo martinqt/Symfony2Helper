@@ -16,7 +16,7 @@ void MainWindow::setExePath(QString path) {
     exePath = path;
     this->loadConfig();
     console->process(workingDir, consolePath);
-    composer->process(workingDir, consolePath);
+    composer->process(workingDir, composerPath);
 }
 
 void MainWindow::loadConfig() {
@@ -53,9 +53,21 @@ void MainWindow::emitComposerReady() {
 }
 
 void MainWindow::displayConsole() {
-    console->showWindow();
+    if(console->isReady()) {
+        console->showWindow();
+    }
+}
+
+void MainWindow::displayComposer() {
+    if(composer->isReady()) {
+        composer->showWindow();
+    }
 }
 
 bool MainWindow::isConsoleReady() {
     return console->isReady();
+}
+
+bool MainWindow::isComposerReady() {
+    return composer->isReady();
 }

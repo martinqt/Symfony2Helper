@@ -14,7 +14,8 @@ SOURCES += \
 
 OTHER_FILES += \
     qml/main.qml \
-    qml/Console.qml
+    qml/Console.qml\
+    qml/Composer.qml
 
 RESOURCES += \
     resources.qrc

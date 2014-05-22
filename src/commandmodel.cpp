@@ -73,7 +73,12 @@ void CommandModel::startProcess() {
 void CommandModel::getXmlCommandList(int code) {
     Q_UNUSED(code);
 
-    dom->setContent(process->readAll());
+    QXmlSimpleReader reader;
+    QXmlInputSource source;
+
+    source.setData(process->readAll());
+
+    dom->setContent(&source, &reader);
 
     this->processXml();
 }
@@ -112,9 +117,10 @@ QString CommandModel::convertXmlTextStyle(QString text) {
 QString CommandModel::convertAnsiTextStyle(QString text) {
     text.replace("[32m", "<span style=\"color: #3BCF00\">");
     text.replace("[33m", "<span style=\"color: #009AD6\">");
+    text.replace("[37;41m", "<span style=\"color: red;\">");
     text.replace("[39m", "</span>");
+    text.replace("[0m", "</span>");
     text.replace(QRegExp("\n"), "<br/>");
-    text.replace(QRegExp("\t"), "!");
 
     return text;
 }

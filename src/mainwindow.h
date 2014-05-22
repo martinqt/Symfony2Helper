@@ -18,7 +18,9 @@ class MainWindow : public BaseWindow {
 
     public slots:
         void displayConsole();
+        void displayComposer();
         bool isConsoleReady();
+        bool isComposerReady();
 
     signals:
         void consoleReady();
