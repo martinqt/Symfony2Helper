@@ -33,7 +33,7 @@ class MainWindow : public BaseWindow {
 
         CommandWindow *console;
         ComposerWindow *composer;
-        QString workingDir, consolePath, exePath;
+        QString workingDir, consolePath, composerPath, exePath;
 };
 
 #endif // MAINWINDOW_H

@@ -23,6 +23,7 @@ void MainWindow::loadConfig() {
     QSettings settings("config.ini", QSettings::IniFormat);
     workingDir = settings.value("Directories/work", "default").toString();
     consolePath = settings.value("Directories/console", "default").toString();
+    composerPath = settings.value("Directories/composer", "default").toString();
 
     if(workingDir == "default") {
         QDir workDir = QDir(exePath);
@@ -34,6 +35,12 @@ void MainWindow::loadConfig() {
         QDir consoleDir = QDir(exePath);
         consoleDir.cd("../app");
         consolePath = consoleDir.absoluteFilePath("console");
+    }
+
+    if(composerPath == "default") {
+        QDir consoleDir = QDir(exePath);
+        consoleDir.cd("../");
+        consolePath = consoleDir.absoluteFilePath("composer.phar");
     }
 }
 

@@ -5,4 +5,5 @@ Example of config file
 [Directories]
 work = www/Project
 console = www/Project/app/console
+composer = www/Project/composer.phar
 ```
