@@ -27,7 +27,7 @@ void MainWindow::loadConfig() {
     QSettings settings("config.ini", QSettings::IniFormat);
     parameters["workingDir"] = settings.value("Locations/work", "default").toString();
     parameters["consolePath"] = settings.value("Locations/console", "default").toString();
-    parameters["composerPath"] = settings.value("Directories/composer", "default").toString();
+    parameters["composerPath"] = settings.value("Locations/composer", "default").toString();
 
 
     if(parameters["workingDir"] == "default") {
