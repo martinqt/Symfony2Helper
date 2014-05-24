@@ -10,26 +10,30 @@ MainWindow::MainWindow(QObject *parent) :
 }
 
 void MainWindow::setExePath(QString path) {
-    exePath = path;
+    parameters["exePath"] = path;
     this->loadConfig();
-    console->process(workingDir, consolePath);
+    console->process(parameters["workingDir"], parameters["consolePath"]);
+}
+
+QMap<QString, QString> MainWindow::getParameters() {
+    return parameters;
 }
 
 void MainWindow::loadConfig() {
     QSettings settings("config.ini", QSettings::IniFormat);
-    workingDir = settings.value("Directories/work", "default").toString();
-    consolePath = settings.value("Directories/console", "default").toString();
+    parameters["workingDir"] = settings.value("Locations/work", "default").toString();
+    parameters["consolePath"] = settings.value("Locations/console", "default").toString();
 
-    if(workingDir == "default") {
-        QDir workDir = QDir(exePath);
+    if(parameters["workingDir"] == "default") {
+        QDir workDir = QDir(parameters["exePath"]);
         workDir.cd("../");
-        workingDir = workDir.absolutePath();
+        parameters["workingDir"] = workDir.absolutePath();
     }
 
-    if(consolePath == "default") {
-        QDir consoleDir = QDir(exePath);
+    if(parameters["consolePath"] == "default") {
+        QDir consoleDir = QDir(parameters["exePath"]);
         consoleDir.cd("../app");
-        consolePath = consoleDir.absoluteFilePath("console");
+        parameters["consolePath"] = consoleDir.absoluteFilePath("console");
     }
 }
 
@@ -38,7 +42,9 @@ void MainWindow::emitConsoleReady() {
 }
 
 void MainWindow::displayConsole() {
-    console->showWindow();
+    if(console->isReady()) {
+        console->showWindow();
+    }
 }
 
 bool MainWindow::isConsoleReady() {
