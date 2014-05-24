@@ -18,12 +18,30 @@ class CommandModel : public QStandardItemModel {
     public:
         CommandModel(QString workingDirectory, QString consolePath, QObject *parent = 0);
         QHash<int, QByteArray> roleNames() const;
-        void setGlobalParameters(QMap<QString, QString> params);
+        /**
+         * @brief Add paramters.
+         *
+         * If one of the parameters already exists, it will be overwritten.
+         *
+         * @param params
+         */
+        void addParameters(QMap<QString, QString> params);
 
     public slots:
         void writeCommand(QString text);
         QString getCompleteDescription(int row);
+        /**
+         * @brief Run a command that is present in the model (i.e: obtained with the "list" command).
+         * @param command
+         * @param params
+         */
         void runCommand(int command, QString params);
+        /**
+         * @brief Allow to run a completly arbitrary command.
+         * @param prog
+         * @param cmd
+         * @param params
+         */
         void runCustomCommand(QString prog, QString cmd, QString params);
         void startProcess();
         QString getName();
@@ -59,6 +77,9 @@ class CommandModel : public QStandardItemModel {
 
         QProcess *process, *cmd;
         QDomDocument *dom;
+        /**
+         * @brief Store the parameters.
+         */
         QMap<QString, QString> parameters;
 };
 

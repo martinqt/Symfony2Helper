@@ -26,7 +26,7 @@ QHash<int, QByteArray> CommandModel::roleNames() const {
     return roles;
 }
 
-void CommandModel::setGlobalParameters(QMap<QString, QString> params) {
+void CommandModel::addParameters(QMap<QString, QString> params) {
     QMapIterator<QString, QString> i(params);
     while(i.hasNext()) {
         i.next();
