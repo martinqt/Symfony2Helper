@@ -37,7 +37,6 @@ class MainWindow : public BaseWindow {
 
         CommandWindow *console;
         ComposerWindow *composer;
-        QString composerPath;
         QMap<QString, QString> parameters;
 };
 

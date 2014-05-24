@@ -16,6 +16,7 @@ void MainWindow::setExePath(QString path) {
     parameters["exePath"] = path;
     this->loadConfig();
     console->process(parameters["workingDir"], parameters["consolePath"]);
+    composer->process(parameters["workingDir"], parameters["composerPath"]);
 }
 
 QMap<QString, QString> MainWindow::getParameters() {
@@ -24,9 +25,9 @@ QMap<QString, QString> MainWindow::getParameters() {
 
 void MainWindow::loadConfig() {
     QSettings settings("config.ini", QSettings::IniFormat);
-    composerPath = settings.value("Directories/composer", "default").toString();
     parameters["workingDir"] = settings.value("Locations/work", "default").toString();
     parameters["consolePath"] = settings.value("Locations/console", "default").toString();
+    parameters["composerPath"] = settings.value("Directories/composer", "default").toString();
 
 
     if(parameters["workingDir"] == "default") {
@@ -41,10 +42,10 @@ void MainWindow::loadConfig() {
         parameters["consolePath"] = consoleDir.absoluteFilePath("console");
     }
 
-    if(composerPath == "default") {
-        QDir consoleDir = QDir(exePath);
+    if(parameters["composerPath"] == "default") {
+        QDir consoleDir = QDir(parameters["exePath"]);
         consoleDir.cd("../");
-        consolePath = consoleDir.absoluteFilePath("composer.phar");
+        parameters["composerPath"] = consoleDir.absoluteFilePath("composer.phar");
     }
 }
 
