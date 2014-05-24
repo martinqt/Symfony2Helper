@@ -20,7 +20,8 @@ class CommandModel : public QStandardItemModel {
     public slots:
         void writeCommand(QString text);
         QString getCompleteDescription(int row);
-        void runCommand(int cmd, QString parameters);
+        void runCommand(int command, QString parameters);
+        void runCustomCommand(QString prog, QString cmd, QString parameters);
         void startProcess();
         QString getName();
         QString getVersion();

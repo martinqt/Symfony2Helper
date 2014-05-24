@@ -50,6 +50,12 @@ void CommandModel::runCommand(int command, QString parameters) {
     emit print(1, QString("Run: "+this->item(command, 0)->text()+" "+parameters+" --ansi"));
 }
 
+void CommandModel::runCustomCommand(QString prog, QString command, QString parameters)
+{
+    cmd->start(prog, QStringList() << command << parameters);
+    emit print(1, QString("Run: "+prog+" "+command+" "+parameters));
+}
+
 void CommandModel::readCommand() {
     emit print(0, this->convertAnsiTextStyle(cmd->readAll()));
 }

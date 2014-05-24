@@ -33,7 +33,6 @@ Window {
         else if(type === 2) {
             consoleDisplay.append("<br/><span style=\"color: #DE1A00;\">"+text+"</span><br/>")
         }
-
     }
 
     Connections {
