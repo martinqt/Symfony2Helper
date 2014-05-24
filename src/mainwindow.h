@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QQmlApplicationEngine>
 #include <QSettings>
+#include <QMap>
 #include "basewindow.h"
 #include "commandwindow.h"
 #include "composerwindow.h"
@@ -15,6 +16,7 @@ class MainWindow : public BaseWindow {
     public:
         explicit MainWindow(QObject *parent = 0);
         void setExePath(QString path);
+        QMap<QString, QString> getParameters();
 
     public slots:
         void displayConsole();
@@ -35,7 +37,8 @@ class MainWindow : public BaseWindow {
 
         CommandWindow *console;
         ComposerWindow *composer;
-        QString workingDir, consolePath, composerPath, exePath;
+        QString composerPath;
+        QMap<QString, QString> parameters;
 };
 
 #endif // MAINWINDOW_H
