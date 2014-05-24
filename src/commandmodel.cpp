@@ -7,10 +7,9 @@ CommandModel::CommandModel(QString workingDirectory, QString consolePath, QObjec
     cmd = new QProcess(this);
     cmd->setProcessChannelMode(QProcess::MergedChannels);
     dom = new QDomDocument();
-    name = version = "";
-    workDir = workingDirectory;
-    console = consolePath;
-    QDir::setCurrent(workDir);
+    parameters["workDir"] = workingDirectory;
+    parameters["console"] = consolePath;
+    QDir::setCurrent(parameters["workDir"]);
 
 
     connect(process, SIGNAL(finished(int)), this, SLOT(getXmlCommandList(int)));
@@ -25,6 +24,14 @@ QHash<int, QByteArray> CommandModel::roleNames() const {
     roles[Qt::UserRole+1] = "description";
 
     return roles;
+}
+
+void CommandModel::setGlobalParameters(QMap<QString, QString> params) {
+    QMapIterator<QString, QString> i(params);
+    while(i.hasNext()) {
+        i.next();
+        parameters.insert(i.key(), i.value());
+    }
 }
 
 QVariant CommandModel::data(const QModelIndex &index, int role) const {
@@ -45,15 +52,15 @@ QString CommandModel::getCompleteDescription(int row) {
     return this->item(row, 2)->text();
 }
 
-void CommandModel::runCommand(int command, QString parameters) {
-    cmd->start("php", QStringList() << console << this->item(command, 0)->text() << parameters << "--ansi");
-    emit print(1, QString("Run: "+this->item(command, 0)->text()+" "+parameters+" --ansi"));
+void CommandModel::runCommand(int command, QString params) {
+    cmd->start("php", QStringList() << parameters.value("console") << this->item(command, 0)->text() << params << "--ansi");
+    emit print(1, QString("Run: "+this->item(command, 0)->text()+" "+params+" --ansi"));
 }
 
-void CommandModel::runCustomCommand(QString prog, QString command, QString parameters)
+void CommandModel::runCustomCommand(QString prog, QString command, QString params)
 {
-    cmd->start(prog, QStringList() << command << parameters);
-    emit print(1, QString("Run: "+prog+" "+command+" "+parameters));
+    cmd->start(prog, QStringList() << command << params);
+    emit print(1, QString("Run: "+prog+" "+command+" "+params));
 }
 
 void CommandModel::readCommand() {
@@ -73,7 +80,7 @@ void CommandModel::commandCompleted(int code) {
 }
 
 void CommandModel::startProcess() {
-    process->start("php", QStringList() << console << "list" << "--format=xml");
+    process->start("php", QStringList() << parameters["console"] << "list" << "--format=xml");
 }
 
 void CommandModel::getXmlCommandList(int code) {
@@ -133,17 +140,17 @@ QString CommandModel::convertAnsiTextStyle(QString text) {
 
 void CommandModel::symfonyInformations(QDomElement symfony) {
     if(symfony.hasAttribute("name")) {
-        name = symfony.attribute("name");
+        parameters["name"] = symfony.attribute("name");
     }
     if(symfony.hasAttribute("version")) {
-        version = symfony.attribute("version");
+        parameters["version"] = symfony.attribute("version");
     }
 }
 
 QString CommandModel::getName() {
-    return name;
+    return parameters["name"];
 }
 
 QString CommandModel::getVersion() {
-    return version;
+    return parameters["version"];
 }

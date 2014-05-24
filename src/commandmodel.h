@@ -8,6 +8,8 @@
 #include <QStandardItem>
 #include <QDir>
 #include <QXmlSimpleReader>
+#include <QMap>
+#include <QMapIterator>
 
 class CommandModel : public QStandardItemModel {
 
@@ -16,12 +18,13 @@ class CommandModel : public QStandardItemModel {
     public:
         CommandModel(QString workingDirectory, QString consolePath, QObject *parent = 0);
         QHash<int, QByteArray> roleNames() const;
+        void setGlobalParameters(QMap<QString, QString> params);
 
     public slots:
         void writeCommand(QString text);
         QString getCompleteDescription(int row);
-        void runCommand(int command, QString parameters);
-        void runCustomCommand(QString prog, QString cmd, QString parameters);
+        void runCommand(int command, QString params);
+        void runCustomCommand(QString prog, QString cmd, QString params);
         void startProcess();
         QString getName();
         QString getVersion();
@@ -56,7 +59,7 @@ class CommandModel : public QStandardItemModel {
 
         QProcess *process, *cmd;
         QDomDocument *dom;
-        QString name, version, workDir, console;
+        QMap<QString, QString> parameters;
 };
 
 #endif // COMMANDLIST_H
