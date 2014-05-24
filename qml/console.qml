@@ -136,6 +136,12 @@ Window {
                 text: qsTr("")
                 font.pixelSize: 12
                 Layout.fillWidth: true
+
+                onAccepted: {
+                    commandModel.writeCommand(consoleInput.text)
+                    consoleDisplay.append(consoleInput.text)
+                    consoleInput.text = ""
+                }
             }
         }
     }

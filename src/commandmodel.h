@@ -17,6 +17,7 @@ class CommandModel : public QStandardItemModel {
         QHash<int, QByteArray> roleNames() const;
 
     public slots:
+        void writeCommand(QString text);
         QString getCompleteDescription(int row);
         void runCommand(int cmd, QString parameters);
         void startProcess();
@@ -40,6 +41,7 @@ class CommandModel : public QStandardItemModel {
         void print(int type, QString text);
 
     private slots:
+        void readCommand();
         void commandCompleted(int code);
         void getXmlCommandList(int code);
         void processXml();

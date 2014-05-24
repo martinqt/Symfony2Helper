@@ -5,6 +5,7 @@ CommandModel::CommandModel(QString workingDirectory, QString consolePath, QObjec
 
     process = new QProcess(this);
     cmd = new QProcess(this);
+    cmd->setProcessChannelMode(QProcess::MergedChannels);
     dom = new QDomDocument();
     name = version = "";
     workDir = workingDirectory;
@@ -14,6 +15,7 @@ CommandModel::CommandModel(QString workingDirectory, QString consolePath, QObjec
 
     connect(process, SIGNAL(finished(int)), this, SLOT(getXmlCommandList(int)));
     connect(cmd, SIGNAL(finished(int)), this, SLOT(commandCompleted(int)));
+    connect(cmd, SIGNAL(readyRead()), this, SLOT(readCommand()));
 }
 
 QHash<int, QByteArray> CommandModel::roleNames() const {
@@ -46,6 +48,14 @@ QString CommandModel::getCompleteDescription(int row) {
 void CommandModel::runCommand(int command, QString parameters) {
     cmd->start("php", QStringList() << console << this->item(command, 0)->text() << parameters << "--ansi");
     emit print(1, QString("Run: "+this->item(command, 0)->text()+" "+parameters+" --ansi"));
+}
+
+void CommandModel::readCommand() {
+    emit print(0, this->convertAnsiTextStyle(cmd->readAll()));
+}
+
+void CommandModel::writeCommand(QString text) {
+    cmd->write(QString(text+"\n").toStdString().c_str());
 }
 
 void CommandModel::commandCompleted(int code) {

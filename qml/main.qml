@@ -6,8 +6,8 @@ ApplicationWindow {
     id: mainWindow
     title: "Symfony2 Tools"
 
-    width: 300
-    height: 70
+    width: 350
+    height: 150
 
     function consoleReady() {
         consoleStatus.visible = false;
@@ -59,6 +59,48 @@ ApplicationWindow {
                 Button {
                     id: translationButton
                     text: qsTr("Translation")
+                    enabled: false
+                }
+            }
+
+            RowLayout {
+                id: composerRow
+
+                Button {
+                    id: composerButton
+                    text: qsTr("Composer")
+                    enabled: false
+                }
+            }
+
+            RowLayout {
+                id: commonRow
+
+                Button {
+                    id: cacheButton
+                    text: qsTr("Clear cache")
+                    enabled: false
+                }
+
+                Button {
+                    id: schemaButton
+                    text: qsTr("Update database schema")
+                    enabled: false
+                }
+
+                Button {
+                    id: testButton
+                    text: qsTr("Run tests")
+                    enabled: false
+                }
+            }
+
+            RowLayout {
+                id: commonRow2
+
+                Button {
+                    id: reloadButton
+                    text: qsTr("Reload tools")
                     enabled: false
                 }
             }
