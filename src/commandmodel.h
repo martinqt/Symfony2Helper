@@ -7,6 +7,9 @@
 #include <QFile>
 #include <QStandardItem>
 #include <QDir>
+#include <QXmlSimpleReader>
+#include <QMap>
+#include <QMapIterator>
 
 class CommandModel : public QStandardItemModel {
 
@@ -15,11 +18,31 @@ class CommandModel : public QStandardItemModel {
     public:
         CommandModel(QString workingDirectory, QString consolePath, QObject *parent = 0);
         QHash<int, QByteArray> roleNames() const;
+        /**
+         * @brief Add paramters.
+         *
+         * If one of the parameters already exists, it will be overwritten.
+         *
+         * @param params
+         */
+        void addParameters(QMap<QString, QString> params);
 
     public slots:
         void writeCommand(QString text);
         QString getCompleteDescription(int row);
-        void runCommand(int cmd, QString parameters);
+        /**
+         * @brief Run a command that is present in the model (i.e: obtained with the "list" command).
+         * @param command
+         * @param params
+         */
+        void runCommand(int command, QString params);
+        /**
+         * @brief Allow to run a completly arbitrary command.
+         * @param prog
+         * @param cmd
+         * @param params
+         */
+        void runCustomCommand(QString prog, QString cmd, QString params);
         void startProcess();
         QString getName();
         QString getVersion();
@@ -54,7 +77,10 @@ class CommandModel : public QStandardItemModel {
 
         QProcess *process, *cmd;
         QDomDocument *dom;
-        QString name, version, workDir, console;
+        /**
+         * @brief Store the parameters.
+         */
+        QMap<QString, QString> parameters;
 };
 
 #endif // COMMANDLIST_H

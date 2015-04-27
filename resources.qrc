@@ -2,6 +2,7 @@
     <qresource prefix="/qml">
         <file alias="console">qml/Console.qml</file>
         <file alias="main">qml/main.qml</file>
+        <file alias="composer">qml/Composer.qml</file>
     </qresource>
     <qresource prefix="/icons">
         <file alias="sf2">pics/sf2.png</file>

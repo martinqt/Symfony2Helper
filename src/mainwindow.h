@@ -7,6 +7,7 @@
 #include <QMap>
 #include "basewindow.h"
 #include "commandwindow.h"
+#include "composerwindow.h"
 
 class MainWindow : public BaseWindow {
 
@@ -19,18 +20,23 @@ class MainWindow : public BaseWindow {
 
     public slots:
         void displayConsole();
+        void displayComposer();
         bool isConsoleReady();
+        bool isComposerReady();
 
     signals:
         void consoleReady();
+        void composerReady();
 
     private slots:
         void emitConsoleReady();
+        void emitComposerReady();
 
     private:
         void loadConfig();
 
         CommandWindow *console;
+        ComposerWindow *composer;
         QMap<QString, QString> parameters;
 };
 

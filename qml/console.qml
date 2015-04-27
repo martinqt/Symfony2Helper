@@ -75,6 +75,7 @@ Window {
                     role: "name"
                     width: 225
                 }
+
                 TableViewColumn {
                     id: descColumn
                     title: qsTr("Description")
